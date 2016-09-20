@@ -1,0 +1,98 @@
+﻿
+
+<div ng-controller="groupDetailsDiscussionController as vm">
+    <div class="content-wrapper">
+        <div class="content-heading">
+            <div class="pull-right">
+                <a href="#/discussion/{{vm.threadInfo.groupInfo.id}}" class="btn btn-sm btn-default text-sm">&lt; back</a>
+            </div>Forum - Discussion
+            <small>Topic ID: {{vm.threadInfo.id}}</small>
+        </div>
+
+
+
+
+        <div class="panel panel-default">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="h3">
+                            {{vm.threadInfo.threadTitle}}
+                            <span class="mh">-</span>
+                            <small>
+                                created by
+                                <a href="/user/profile/{{vm.threadInfo.userId}}">
+                                    <strong>{{vm.threadInfo.userInfo.profileName}} {{vm.threadInfo.userInfo.profileLastName}}</strong>
+                                </a>on
+                                <em>{{vm.threadInfo.createdDate}}</em>
+                            </small>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--ng-repeat="disc in vm.discs"--><!--This is replaced by dir-paginate when using pagination on page-->
+                    <tr ng-repeat="disc in vm.discs">
+                        <td style="width: 15%;" class="text-center">
+                            <div class="mt">
+                                <a href="/user/profile/{{disc.senderId}}">
+                                    <img ng-if="disc.sender.avatar.filePath" ng-src="{{disc.sender.avatar.fullUrl}}" alt="avatar" class="img-circle thumb80">
+                                    <img ng-if="!disc.sender.avatar.filePath" ng-src="http://extech.tufts.edu/images/people/nopic.png" alt="avatar" class="img-circle thumb80">
+
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="/user/profile/{{disc.senderId}}">
+                                <strong class="text-md">{{disc.sender.profileName}} {{disc.sender.profileLastName}}</strong>
+                            </a>
+                            <small>{{disc.datePosted}}</small>
+
+                            <p>
+                                {{disc.message}}
+                            </p>
+                            <div class="text-right">
+                                <em>Some user signature</em>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+    <div class="text-center">
+    </div>
+
+    <div class="text-center mb-lg">
+        <button data-toggle="collapse" data-target="#topic-reply" class="btn btn-primary">Reply to this topic</button>
+    </div>
+    <div id="topic-reply" class="collapse">
+        <div class="text-center">
+            <small>Make sure you have read the <a href="">forum rules </a>before posting</small>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <form action="/" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <textarea id="reply-message" name="reply-message" rows="5" placeholder="Type your answer..." class="form-control" ng-model="vm.newDisc.message"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 text-center">
+                            <button type="button" class="btn btn-sm btn-primary" ng-click="vm.postAnswer()">Post Answer</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="threadId" value="@Model.Item" />
+
+</div>
+
+

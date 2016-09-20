@@ -1,0 +1,31 @@
+﻿@model Sabio.Web.Models.ViewModels.ItemViewModel<int>
+@{
+    ViewBag.Title = "Group Message Thread";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+
+
+@section pageInitScripts{
+
+    <!-- For pagination start-->
+    <script src="~/Scripts/bower_components/angularUtils-pagination/dirPagination.js"></script>
+    <script src="~/Scripts/sabio/modules/sabio.module.pagination.js"></script>
+    <!-- For pagination end-->
+}
+
+
+
+
+@section scripts {
+
+
+    <!--link service file for ajax calls-->
+    <script src="~/Scripts/sabio.services.messagethreads.js"></script>
+
+
+
+}
+

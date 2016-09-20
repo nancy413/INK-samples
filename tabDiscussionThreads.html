@@ -1,0 +1,97 @@
+﻿
+
+<div class="content-wrapper" ng-controller="groupDetailsDiscussionThreadsController as vm">
+
+    <div class="content-heading">
+        <div class="pull-right">
+            <a href="/usergroup/indexng" class="btn btn-sm btn-default text-sm">&lt; back</a>
+        </div>Group Discussion Threads
+        <small>Group ID: {{vm.newThread.groupId}}</small>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form role="form" class="form-inline" ng-submit="vm.addThread()">
+                <div class="form-group">
+                    <label for="text" class="sr-only">Thread Title</label>
+                    <input id="input-text" type="text" ng-model="vm.newThread.threadTitle" placeholder="Add new topic" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-info" ng-submit="vm.addThread()">ADD NEW</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!--For Pagination-->
+    <div class="text-center">
+        <dir-pagination-controls boundary-links="true" on-page-change="vm.pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+    </div>
+
+
+    <div class="panel panel-default">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 50%" class="h4">Welcome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--ng-repeat="thread in vm.threads"--><!--This is replaced by dir-paginate when using pagination on page-->
+                <tr dir-paginate="thread in vm.threads | itemsPerPage: vm.pageSize" current-page="vm.currentPage" total-items="vm.totalItems">
+                    <td>
+                        <h4>
+                            <a ng-href="#/discussion/thread/{{thread.id}}">
+                                <strong>{{thread.threadTitle}}</strong>
+                                <br />
+                                <small>Topic ID: {{thread.id}} </small>
+                            </a>
+                        </h4>
+                        <div class="text-muted text-sm">
+                            <span>
+                                <strong class="mr-sm">{{thread.viewCount}}</strong>views
+                            </span>
+                            <span class="mh-sm"></span>
+                            <span>
+                                <strong class="mr-sm">{{thread.commentCount}}</strong>comments
+                            </span>
+                        </div>
+                    </td>
+                    <td class="text-right hidden-xs hidden-sm">
+                        <div class="text-muted">
+                            <small class="mr-sm">Started by</small><a href="/user/profile/{{thread.userInfo.userId}}" class="mr-sm">{{thread.userInfo.profileName}} {{thread.userInfo.profileLastName}}</a>
+                            <small>{{thread.createdDate}}</small>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <input type="hidden" id="groupId" value="@Model.Item" />
+</div>
+
+<!--For Pagination-->
+<div class="text-center">
+    <dir-pagination-controls boundary-links="true" on-page-change="vm.pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html"></dir-pagination-controls>
+</div>
+
+
+
+<script type="text/ng-template" id="dirPagination.tpl.html">
+    <ul class="pagination" ng-if="1 < pages.length || !autoHide">
+        <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">
+            <a href="" ng-click="setCurrent(1)">&laquo;</a>
+        </li>
+        <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }">
+            <a href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>
+        </li>
+        <li ng-repeat="pageNumber in pages track by tracker(pageNumber, $index)" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+            <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+        </li>
+        <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }">
+            <a href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>
+        </li>
+        <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == pagination.last }">
+            <a href="" ng-click="setCurrent(pagination.last)">&raquo;</a>
+        </li>
+    </ul>
+</script>
